@@ -6,13 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+
+    <Button
+        android:id="@+id/mainbutton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="About Me"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/mainbutton2"/>
 
+    <Button
+        android:id="@+id/mainbutton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A6 At Your Service"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainbutton1"
+        app:layout_constraintBottom_toTopOf="@+id/mainbutton3"/>
+
+    <Button
+        android:id="@+id/mainbutton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A7"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainbutton2"
+        app:layout_constraintBottom_toTopOf="@+id/mainbutton4"/>
+
+    <Button
+        android:id="@+id/mainbutton4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Final Project"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainbutton3"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
