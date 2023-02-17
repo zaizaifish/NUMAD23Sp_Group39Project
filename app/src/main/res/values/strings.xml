@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">NUMAD23Sp_Group39Project</string>
+    <string name="imdb_api">https://www.omdbapi.com/?apikey=d92c34dd&amp;t=</string>
 </resources>

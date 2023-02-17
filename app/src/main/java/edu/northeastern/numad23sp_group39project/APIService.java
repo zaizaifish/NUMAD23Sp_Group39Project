@@ -2,20 +2,32 @@ package edu.northeastern.numad23sp_group39project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class APIService extends AppCompatActivity {
+    private static final String TAG = "APIService";
     private LinearLayout moviesLayout;
     private Button addMovieButton;
     private Button SubmitButton;
@@ -52,35 +64,84 @@ public class APIService extends AppCompatActivity {
                 for (String str: movieList){
                     Log.d("movie",str);
                 }
-                // TODO: launch http call here and parse result
-                /*
-                Refer to https://www.omdbapi.com/. Get Movie info by querying a movie title
-                sample request: (GET METHOD)
-                Request: http://www.omdbapi.com/?t=avengers
-                Response:
-                {"Title":"The Avengers","Year":"2012","Rated":"PG-13","Released":"04 May 2012",
-                "Runtime":"143 min","Genre":"Action, Sci-Fi","Director":"Joss Whedon","Writer":"Joss Whedon,
-                Zak Penn","Actors":"Robert Downey Jr., Chris Evans, Scarlett Johansson",
-                "Plot":"Earth's mightiest heroes must come together and learn to fight as a team
-                if they are going to stop the mischievous Loki and his alien army from enslaving humanity.",
-                "Language":"English, Russian, Hindi","Country":"United States","Awards":"Nominated for 1 Oscar.
-                38 wins & 80 nominations total","Poster":"https://m.media-amazon.com/images/M/MV5BNDYxNjQyMjAtNTdiOS00NGYwLW
-                FmNTAtNThmYjU5ZGI2YTI1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg","Ratings":[{"Source":"Internet Movie Database",
-                "Value":"8.0/10"},{"Source":"Rotten Tomatoes","Value":"91%"},{"Source":"Metacritic","Value":"69/100"}],"Metascore":
-                "69","imdbRating":"8.0","imdbVotes":"1,397,515","imdbID":"tt0848228","Type":"movie","DVD":"25 Sep 2012","BoxOffice":"$623,357,910",
-                "Production":"N/A","Website":"N/A","Response":"True"}
-                 */
+                // launch http call here and parse result
+                for (String title : movieList) {
+                    PingWebServiceTask task = new PingWebServiceTask();
+                    task.execute(title);
+                }
+            }
+        });
 
-                // TODO: present result
-                /*
+    }
+
+    private class PingWebServiceTask extends AsyncTask<String, Integer, String[]> {
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            Log.i(TAG, "Making progress...");
+        }
+
+        @Override
+        protected String[] doInBackground(String... params) {
+            String[] results = new String[2];
+            URL url = null;
+            try {
+                url = new URL(getResources().getString(R.string.imdb_api) + params[0]);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setDoInput(true);
+
+                conn.connect();
+
+                InputStream inputStream = conn.getInputStream();
+                final String resp = convertStreamToString(inputStream);
+
+                // return [Title, imdbRating]
+                JSONObject jObject = new JSONObject(resp);
+                String jTitle = jObject.getString("Title");
+                String jRating = jObject.getString("imdbRating");
+                results[0] = jTitle;
+                results[1] = jRating;
+                return results;
+            } catch (MalformedURLException e) {
+                Log.e(TAG,"MalformedURLException");
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                Log.e(TAG,"ProtocolException");
+                e.printStackTrace();
+            } catch (IOException e) {
+                Log.e(TAG,"IOException");
+                e.printStackTrace();
+            } catch (JSONException e) {
+                Log.e(TAG,"JSONException");
+                e.printStackTrace();
+            }
+            results[0] = "Something went wrong";
+            return(results);
+        }
+
+        @Override
+        protected void onPostExecute(String... s) {
+            super.onPostExecute(s);
+            // TODO: present result
+            /*
                 1. consider using RecyclerView
                 2. present movie title + imdbRating in a single line
                 3. Consider displaying icons instead of text for categorical variables in the response
                 such as Good for rating > 85, Normal for rating > 60, Bad for rating < 60
-                 */
-            }
-        });
+             */
+            /*
+                s[0]: Title
+                s[1]: imdbRating
+             */
+            Log.e(TAG, s[0]);
+            Log.e(TAG, s[1]);
+        }
+    }
 
+    private String convertStreamToString(InputStream is) {
+        Scanner s = new Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next().replace(",", ",\n") : "";
     }
 
     private void addMovieInput(String inputStr) {
@@ -106,8 +167,8 @@ public class APIService extends AppCompatActivity {
         EditText movieTitleEditText = findViewById(R.id.movieEditText);
         res.add(String.valueOf(movieTitleEditText.getText()));
         for (Integer id : idList) {
-            View movieInputLayout = scrollView.findViewById(id);
-            movieTitleEditText = movieInputLayout.findViewById(R.id.movieTitleEditText);
+            ViewGroup movieInputLayout = scrollView.findViewById(id);
+            movieTitleEditText = (EditText)movieInputLayout.getChildAt(0);
             res.add(String.valueOf(movieTitleEditText.getText()));
         }
         return res;
