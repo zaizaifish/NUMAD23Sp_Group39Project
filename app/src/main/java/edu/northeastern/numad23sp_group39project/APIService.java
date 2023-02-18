@@ -2,6 +2,7 @@ package edu.northeastern.numad23sp_group39project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +34,10 @@ public class APIService extends AppCompatActivity {
     private Button SubmitButton;
     private ArrayList<Integer> idList = new ArrayList<>();
     private static ArrayList<EditText> textList = new ArrayList<>();
+    private ArrayList<String[]> searchRes = new ArrayList<>();
+    private final String lock = "LOCK";
+
+    private static Integer totalTask = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,11 +69,14 @@ public class APIService extends AppCompatActivity {
                 for (String str: movieList){
                     Log.d("movie",str);
                 }
+                // setTotal task number
+                totalTask = movieList.size();
                 // launch http call here and parse result
                 for (String title : movieList) {
                     PingWebServiceTask task = new PingWebServiceTask();
                     task.execute(title);
                 }
+                new Thread(new ResultCollector()).start();
             }
         });
 
@@ -123,19 +131,34 @@ public class APIService extends AppCompatActivity {
         @Override
         protected void onPostExecute(String... s) {
             super.onPostExecute(s);
-            // TODO: present result
-            /*
-                1. consider using RecyclerView
-                2. present movie title + imdbRating in a single line
-                3. Consider displaying icons instead of text for categorical variables in the response
-                such as Good for rating > 85, Normal for rating > 60, Bad for rating < 60
-             */
-            /*
-                s[0]: Title
-                s[1]: imdbRating
-             */
-            Log.e(TAG, s[0]);
-            Log.e(TAG, s[1]);
+            //store fetched result
+            synchronized (lock){
+                searchRes.add(new String[]{s[0],s[1]});
+                lock.notifyAll();
+            }
+        }
+    }
+
+//    collect results from all PingWebServiceTask and present them in a new activity
+    private class ResultCollector implements Runnable{
+        @Override
+        public void run() {
+            synchronized (lock) {
+//                wait for task finish
+                while (searchRes.size()<totalTask){
+                    try {
+                        lock.wait();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+//                all task finished
+                Log.e(TAG,searchRes.toString());
+//                show data in another activity using RecyclerView
+                Intent intent = new Intent(APIService.this, ShowResult.class);
+                intent.putExtra("search result", searchRes);
+                startActivity(intent);
+            }
         }
     }
 
