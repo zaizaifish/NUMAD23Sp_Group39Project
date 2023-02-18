@@ -1,39 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="2dp"
     app:cardCornerRadius="5dp">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:background="#78B1DE"
+        android:layout_height="wrap_content"
+        android:background="#D3D3D3"
         >
 
-        <TextView
-            android:id="@+id/res_title"
-            android:layout_width="150dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="1dp"
-            android:text="@string/title"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:textColor="@android:color/black"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
 
-        <TextView
-            android:id="@+id/res_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/res_title"
-            android:layout_marginStart="130dp"
-            android:layout_marginTop="-21dp"
-            android:layout_toEndOf="@+id/res_title"
-            android:text="Rating" />
+            <TextView
+                android:id="@+id/res_title"
+                android:layout_width="309dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/title"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/res_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textSize="20sp"
+                android:text="Rating" />
+
+        </LinearLayout>
+
 
 
     </RelativeLayout>
