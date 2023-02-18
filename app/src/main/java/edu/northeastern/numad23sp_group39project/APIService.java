@@ -124,7 +124,7 @@ public class APIService extends AppCompatActivity {
                 Log.e(TAG,"JSONException");
                 e.printStackTrace();
             }
-            results[0] = "Something went wrong";
+            results[0] = "Movie Not Found";
             return(results);
         }
 
