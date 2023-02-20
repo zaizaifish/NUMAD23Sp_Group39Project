@@ -1,14 +1,16 @@
 package edu.northeastern.numad23sp_group39project;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,7 +28,6 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -77,27 +78,40 @@ public class APIService extends AppCompatActivity {
                 totalTask = movieList.size();
                 // launch http call here and parse result
                 for (String title : movieList) {
-                    ExecutorService executor = Executors.newSingleThreadExecutor();
-                    Handler handler = new Handler(Looper.getMainLooper());
-                    executor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            String[] result = runHTTPCall(title);
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    synchronized (lock){
-                                        //store fetched result
-                                        searchRes.add(new String[]{result[0],result[1]});
-                                        lock.notifyAll();
-                                    }
-                                }
-                            });
-                        }
-                    });
-
+                    searchMovieViaHTTP(title);
                 }
                 new Thread(new ResultCollector()).start();
+            }
+        });
+        // add back button in action bar
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent backToMainIntent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(backToMainIntent);
+        return true;
+    }
+
+    public void searchMovieViaHTTP(String title) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                String[] result = runHTTPCall(title);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        synchronized (lock){
+                            //store fetched result
+                            searchRes.add(new String[]{result[0],result[1]});
+                            lock.notifyAll();
+                        }
+                    }
+                });
             }
         });
     }
@@ -161,6 +175,14 @@ public class APIService extends AppCompatActivity {
                 startActivity(intent);
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        moviesLayout.removeViews(1, moviesLayout.getChildCount() - 1);
+        idList.clear();
+        textList.clear();
     }
 
     private String convertStreamToString(InputStream is) {
