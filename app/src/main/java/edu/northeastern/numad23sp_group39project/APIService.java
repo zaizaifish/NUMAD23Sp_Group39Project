@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
 import org.json.JSONException;
@@ -41,11 +42,13 @@ public class APIService extends AppCompatActivity {
     private static ArrayList<EditText> textList = new ArrayList<>();
     private ArrayList<String[]> searchRes = new ArrayList<>();
     private final String lock = "LOCK";
+    ProgressBar progressBar;
 
     private static Integer totalTask = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        progressBar = findViewById(R.id.progress_bar);
         setContentView(R.layout.activity_apiservice);
         // Get references to the UI elements
         moviesLayout = findViewById(R.id.moviesLayout);
@@ -120,6 +123,14 @@ public class APIService extends AppCompatActivity {
         String[] results = new String[2];
         URL url = null;
         try {
+            // update UI
+            progressBar = findViewById(R.id.progress_bar);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+            });
             url = new URL(getResources().getString(R.string.imdb_api) + title);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -151,6 +162,12 @@ public class APIService extends AppCompatActivity {
             e.printStackTrace();
         }
         results[0] = "Movie Not Found";
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                progressBar.setVisibility(View.GONE);
+//            }
+//        });
         return(results);
     }
 
@@ -169,6 +186,12 @@ public class APIService extends AppCompatActivity {
                 }
 //                all task finished
                 Log.e(TAG,searchRes.toString());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
 //                show data in another activity using RecyclerView
                 Intent intent = new Intent(APIService.this, ShowResult.class);
                 intent.putExtra("search result", searchRes);
@@ -219,6 +242,5 @@ public class APIService extends AppCompatActivity {
         }
         return res;
     }
-
 
 }
