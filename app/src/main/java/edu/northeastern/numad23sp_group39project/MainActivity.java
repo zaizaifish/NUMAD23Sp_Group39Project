@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mainbtn2; // A7 Button
     private Button mainbtn3; // A8 Button
     private Button mainbtn4; // Final Project Button
+    private Button a8Button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         mainbtn2 = findViewById(R.id.mainbutton2);
         mainbtn3 = findViewById(R.id.mainbutton3);
         mainbtn4 = findViewById(R.id.mainbutton4);
+        a8Button = findViewById(R.id.a8Button);
         mainbtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -31,6 +33,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), APIService.class);
+                startActivity(intent);
+            }
+        });
+        a8Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), StickerSender.class);
                 startActivity(intent);
             }
         });

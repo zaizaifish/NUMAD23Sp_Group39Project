@@ -11,13 +11,13 @@
         android:id="@+id/mainbutton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="About Me"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:text="About"
+        app:layout_constraintBottom_toTopOf="@+id/mainbutton2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/mainbutton2"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/mainbutton2"
@@ -35,23 +35,46 @@
         android:id="@+id/mainbutton3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="A7"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:text="A7"
+        app:layout_constraintBottom_toTopOf="@id/a8Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainbutton2"
-        app:layout_constraintBottom_toTopOf="@+id/mainbutton4"/>
+        app:layout_constraintTop_toBottomOf="@+id/mainbutton2" />
+
+    <Button
+        android:id="@+id/a8Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A8 Stick It To 'Em"
+        app:layout_constraintBottom_toTopOf="@+id/mainbutton4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainbutton3"
+        app:layout_constraintVertical_bias="0.776" />
 
     <Button
         android:id="@+id/mainbutton4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Final Project"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:text="Final Project"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainbutton3"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/a8Button" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Group 39"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/mainbutton1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
