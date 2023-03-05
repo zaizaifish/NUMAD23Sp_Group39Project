@@ -180,7 +180,7 @@ public class StickerSender extends AppCompatActivity {
                 new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        showMessage(dataSnapshot);
+//                        showMessage(dataSnapshot);
                         showNotification(dataSnapshot);
                     }
 
