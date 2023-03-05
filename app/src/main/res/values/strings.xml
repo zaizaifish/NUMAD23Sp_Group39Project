@@ -3,6 +3,6 @@
     <string name="imdb_api">https://www.omdbapi.com/?apikey=d92c34dd&amp;t=</string>
     <string name="title">Title111111111111111111111111111111</string>
     <string name ="preference_file_key">SharedPreferenceFileKey</string>
-    <string name ="saved_username_key">SharedPreferenceFileKey</string>
+    <string name ="saved_username_key">SavedUserKey</string>
 
 </resources>

@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 public class StickerSender extends AppCompatActivity {
     private TextView mTvUsername;
+    private String username;
+    private TextView SendToTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,12 +24,11 @@ public class StickerSender extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         // setup user login
-        Intent LogInintent = new Intent(getApplicationContext(), StickerLoginActivity.class);
-        startActivity(LogInintent);
-        mTvUsername = findViewById(R.id.tv_username);
+        mTvUsername = findViewById(R.id.LoginUser);
+        SendToTextView = findViewById(R.id.SendToTextView);
 
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        String username = sharedPref.getString(getString(R.string.saved_username_key), "");
+        username = sharedPref.getString(getString(R.string.saved_username_key), "");
 
         mTvUsername.setText("Welcome, " + username + "!");
     }

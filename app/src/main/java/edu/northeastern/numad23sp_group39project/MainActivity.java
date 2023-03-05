@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         a8Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), StickerSender.class);
+//                Intent intent = new Intent(getApplicationContext(), StickerSender.class);
+                Intent intent = new Intent(getApplicationContext(), StickerLoginActivity.class);
                 startActivity(intent);
             }
         });
