@@ -16,6 +16,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class StickerSender extends AppCompatActivity {
     private TextView mTvUsername;
     private String username;
@@ -26,6 +30,9 @@ public class StickerSender extends AppCompatActivity {
     private CheckBox SmileCheckBox;
     private CheckBox AngryCheckBox;
     private CheckBox CryCheckBox;
+
+    private DatabaseReference mDatabase;
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,8 +110,16 @@ public class StickerSender extends AppCompatActivity {
             public void onClick(View v) {
                 // Read History Data from database
                 // use another view to display data
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("message");
+
+                Task t = myRef.setValue("Hello, World!");
+
             }
         });
+
+        // add database
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
     }
 
     @Override
