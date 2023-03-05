@@ -181,7 +181,7 @@ public class StickerSender extends AppCompatActivity {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         showMessage(dataSnapshot);
-                        showNotification();
+                        showNotification(dataSnapshot);
                     }
 
                     @Override
@@ -257,19 +257,36 @@ public class StickerSender extends AppCompatActivity {
         }
     }
 
-    private void showNotification() {
+    private void showNotification(DataSnapshot dataSnapshot) {
+        // read data from database
+        Message message = dataSnapshot.getValue(Message.class);
+        if (!message.to.equals(username)) {
+            return;
+        }
+        String fromUser = message.from;
+        String sendTime = (new Date(Long.parseLong(message.time))).toString();
+        int resId = R.drawable.smile;
+        if (message.sticker.equals("smile.png")) {
+            resId = R.drawable.smile;
+        } else if (message.sticker.equals("angry.png")) {
+            resId = R.drawable.angry;
+        } else {
+            resId = R.drawable.cry;
+        }
+
+        // implement notification bar
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "my_channel_id")
-                .setSmallIcon(R.drawable.smile)
-                .setContentTitle("My Notification Title")
-                .setContentText("This is the content text of the notification.")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Incoming Sticker Reminder")
+                .setContentText("You have received a sticker from " + fromUser + "\n" + "Time: " + sendTime)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.smile))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), resId))
                 .setStyle(new NotificationCompat.BigPictureStyle()
-                        .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.smile))
+                        .bigPicture(BitmapFactory.decodeResource(getResources(), resId))
                         .bigLargeIcon(null))
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
