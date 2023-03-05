@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,16 +23,16 @@ import com.google.firebase.database.FirebaseDatabase;
 public class StickerSender extends AppCompatActivity {
     private TextView mTvUsername;
     private String username;
-    private TextView SendToTextView;
+    private EditText ReceiverUserName;
     private ImageView SmileImageView;
-    private int SmileCnt;
     private ImageView CryImageView;
-    private int CryCnt;
     private ImageView AngryImageView;
-    private int AngryCnt;
+    private CheckBox SmileCheckBox;
+    private CheckBox AngryCheckBox;
+    private CheckBox CryCheckBox;
 
     private DatabaseReference mDatabase;
-
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,41 +41,49 @@ public class StickerSender extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        SmileCheckBox = findViewById(R.id.SmileCheckBox);
+        AngryCheckBox = findViewById(R.id.AngryCheckBox);
+        CryCheckBox = findViewById(R.id.CryCheckBox);
+        ReceiverUserName = findViewById(R.id.ReceiverUserName);
         // setup user login
         mTvUsername = findViewById(R.id.LoginUser);
-        SendToTextView = findViewById(R.id.SendToTextView);
 
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         username = sharedPref.getString(getString(R.string.saved_username_key), "");
 
         mTvUsername.setText("Welcome, " + username + "!");
 
+        // restore rotation status
+        if(savedInstanceState != null) {
+            boolean isCheckBoxChecked = savedInstanceState.getBoolean("isSmileBoxChecked");
+            SmileCheckBox.setChecked(isCheckBoxChecked);
+            isCheckBoxChecked = savedInstanceState.getBoolean("isAngryBoxChecked");
+            AngryCheckBox.setChecked(isCheckBoxChecked);
+            isCheckBoxChecked = savedInstanceState.getBoolean("isCryBoxChecked");
+            CryCheckBox = findViewById(R.id.CryCheckBox);
+            String savedText = savedInstanceState.getString("ReceiverUserName");
+            ReceiverUserName.setText(savedText);
+        }
         // setup sticker listener
         SmileImageView = findViewById(R.id.SmileImageView);
         SmileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SmileCnt++;
-                TextView SmileCountTextView = findViewById(R.id.SmileCountTextView);
-                SmileCountTextView.setText(String.valueOf(SmileCnt));
+                SmileCheckBox.setChecked(!SmileCheckBox.isChecked());
             }
         });
         CryImageView = findViewById(R.id.CryImageView);
         CryImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CryCnt++;
-                TextView CryCountTextView = findViewById(R.id.CryCountTextView);
-                CryCountTextView.setText(String.valueOf(CryCnt));
+                CryCheckBox.setChecked(!CryCheckBox.isChecked());
             }
         });
         AngryImageView = findViewById(R.id.AngryImageView);
         AngryImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AngryCnt++;
-                TextView AngryCountTextView = findViewById(R.id.AngryCountTextView);
-                AngryCountTextView.setText(String.valueOf(AngryCnt));
+                AngryCheckBox.setChecked(!AngryCheckBox.isChecked());
             }
         });
 
@@ -117,5 +127,14 @@ public class StickerSender extends AppCompatActivity {
         Intent backToAPIServiceIntent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(backToAPIServiceIntent);
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("ReceiverUserName", ReceiverUserName.getText().toString());
+        outState.putBoolean("isSmileBoxChecked", SmileCheckBox.isChecked());
+        outState.putBoolean("isAngryBoxChecked", AngryCheckBox.isChecked());
+        outState.putBoolean("isCryBoxChecked", CryCheckBox.isChecked());
     }
 }
