@@ -5,12 +5,20 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,7 +57,7 @@ public class StickerSender extends AppCompatActivity {
     private TextView timeText;
     private TextView fromText;
     private ImageView receivedImage;
-  
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +86,11 @@ public class StickerSender extends AppCompatActivity {
 
         mTvUsername.setText("Welcome, " + username + "!");
 
+        // set up notification channel
+        createNotificationChannel();
+
         // restore rotation status
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             boolean isCheckBoxChecked = savedInstanceState.getBoolean("isSmileBoxChecked");
             SmileCheckBox.setChecked(isCheckBoxChecked);
             isCheckBoxChecked = savedInstanceState.getBoolean("isAngryBoxChecked");
@@ -124,7 +135,7 @@ public class StickerSender extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Write in database
-                if(!SmileCheckBox.isChecked() && !AngryCheckBox.isChecked() && !CryCheckBox.isChecked()) {
+                if (!SmileCheckBox.isChecked() && !AngryCheckBox.isChecked() && !CryCheckBox.isChecked()) {
                     Toast.makeText(getApplicationContext()
                             , "No sticker selected", Toast.LENGTH_SHORT).show();
                 }
@@ -136,11 +147,9 @@ public class StickerSender extends AppCompatActivity {
                 String sticker = "";
                 if (SmileCheckBox.isChecked()) {
                     sticker = "smile.png";
-                }
-                else if (AngryCheckBox.isChecked()) {
+                } else if (AngryCheckBox.isChecked()) {
                     sticker = "angry.png";
-                }
-                else if (CryCheckBox.isChecked()) {
+                } else if (CryCheckBox.isChecked()) {
                     sticker = "cry.png";
                 }
                 String time = String.valueOf((new Date()).getTime());
@@ -171,7 +180,8 @@ public class StickerSender extends AppCompatActivity {
                 new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        showMessage(dataSnapshot);
+//                        showMessage(dataSnapshot);
+                        showNotification(dataSnapshot);
                     }
 
                     @Override
@@ -202,18 +212,16 @@ public class StickerSender extends AppCompatActivity {
 
     private void showMessage(DataSnapshot dataSnapshot) {
         Message message = dataSnapshot.getValue(Message.class);
-        if(!message.to.equals(username)) {
+        if (!message.to.equals(username)) {
             return;
         }
         fromText.setText("From: " + message.from);
         timeText.setText("Time: " + (new Date(Long.parseLong(message.time))).toString());
         if (message.sticker.equals("smile.png")) {
             receivedImage.setImageResource(R.drawable.smile);
-        }
-        else if (message.sticker.equals("angry.png")) {
+        } else if (message.sticker.equals("angry.png")) {
             receivedImage.setImageResource(R.drawable.angry);
-        }
-        else {
+        } else {
             receivedImage.setImageResource(R.drawable.cry);
         }
         messageDisplay.setVisibility(View.VISIBLE);
@@ -235,5 +243,66 @@ public class StickerSender extends AppCompatActivity {
         outState.putBoolean("isSmileBoxChecked", SmileCheckBox.isChecked());
         outState.putBoolean("isAngryBoxChecked", AngryCheckBox.isChecked());
         outState.putBoolean("isCryBoxChecked", CryCheckBox.isChecked());
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("my_channel_id", name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void showNotification(DataSnapshot dataSnapshot) {
+        // read data from database
+        Message message = dataSnapshot.getValue(Message.class);
+        if (!message.to.equals(username)) {
+            return;
+        }
+        String fromUser = message.from;
+        String sendTime = (new Date(Long.parseLong(message.time))).toString();
+        int resId = R.drawable.smile;
+        if (message.sticker.equals("smile.png")) {
+            resId = R.drawable.smile;
+        } else if (message.sticker.equals("angry.png")) {
+            resId = R.drawable.angry;
+        } else {
+            resId = R.drawable.cry;
+        }
+
+        // implement notification bar
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "my_channel_id")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Incoming Sticker Reminder")
+                .setContentText("You have received a sticker from " + fromUser + "\n" + "Time: " + sendTime)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), resId))
+                .setStyle(new NotificationCompat.BigPictureStyle()
+                        .bigPicture(BitmapFactory.decodeResource(getResources(), resId))
+                        .bigLargeIcon(null))
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        notificationManager.notify(0, builder.build());
     }
 }
