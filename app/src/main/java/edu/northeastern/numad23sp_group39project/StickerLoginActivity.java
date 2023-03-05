@@ -41,7 +41,6 @@ public class StickerLoginActivity extends AppCompatActivity {
 
                 DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
 
-                Task t = mDatabase.child("users").child(user.username).setValue(user);
 
 
                 startActivity(LogInIntent);
