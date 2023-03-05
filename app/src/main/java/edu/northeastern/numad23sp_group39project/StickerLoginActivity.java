@@ -11,10 +11,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class StickerLoginActivity extends AppCompatActivity {
     private EditText mEditUsername;
     private Button mBtnSubmit;
-
+    private DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +26,7 @@ public class StickerLoginActivity extends AppCompatActivity {
 
         mEditUsername = findViewById(R.id.edit_username);
         mBtnSubmit = findViewById(R.id.btn_submit);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mBtnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,6 +38,12 @@ public class StickerLoginActivity extends AppCompatActivity {
                 editor.putString(getString(R.string.saved_username_key), username);
                 editor.apply();
                 Intent LogInIntent = new Intent(getApplicationContext(), StickerSender.class);
+
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
+
+                Task t = mDatabase.child("users").child(user.username).setValue(user);
+
+
                 startActivity(LogInIntent);
                 finish();
             }
