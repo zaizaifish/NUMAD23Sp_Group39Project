@@ -163,6 +163,8 @@ public class StickerSender extends AppCompatActivity {
             public void onClick(View v) {
                 // Read Count data from database
                 // use another view to display data
+                Intent countIntent = new Intent(getApplicationContext(),StickerCount.class);
+                startActivity(countIntent);
             }
         });
         Button HistoryButton = findViewById(R.id.HistoryButton);

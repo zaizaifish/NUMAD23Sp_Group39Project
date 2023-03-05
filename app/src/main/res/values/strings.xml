@@ -6,4 +6,5 @@
     <string name ="saved_username_key">SavedUserKey</string>
     <string name ="channel_name">ReminderSticker</string>
     <string name ="channel_description">RemindUserSticker</string>
+    <string name="_0">0</string>
 </resources>
