@@ -10,6 +10,7 @@ import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -41,11 +42,12 @@ public class StickerLoginActivity extends AppCompatActivity {
 
                 DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
 
-
+                Task t = mDatabase.child("users").child(username).setValue(username);
 
                 startActivity(LogInIntent);
                 finish();
             }
         });
+
     }
 }
