@@ -11,65 +11,41 @@
         android:id="@+id/LoginUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="51dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/MessageTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="16dp"
-        android:text="Sticker Message: "
-        app:layout_constraintEnd_toStartOf="@+id/EditTextMessage"
-        app:layout_constraintHorizontal_bias="0.806"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LoginUser" />
 
     <TextView
         android:id="@+id/SendToTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="36dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="24dp"
         android:text="Send To: "
-        app:layout_constraintEnd_toStartOf="@+id/ReceiverUserName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MessageTextView" />
-
-    <EditText
-        android:id="@+id/EditTextMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:hint="Enter sticker"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/SendButton"
+        app:layout_constraintEnd_toStartOf="@+id/ReceiverUserName" />
 
     <EditText
         android:id="@+id/ReceiverUserName"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="12dp"
         android:ems="10"
         android:hint="Enter Receiver username"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditTextMessage" />
+        app:layout_constraintBottom_toTopOf="@+id/HistoryButton"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/SendButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="32dp"
         android:text="Send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/CountButton"
@@ -79,20 +55,87 @@
         android:id="@+id/HistoryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="52dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="32dp"
         android:text="History"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/CountButton" />
 
     <Button
         android:id="@+id/CountButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="32dp"
         android:text="Count"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/HistoryButton" />
+        app:layout_constraintEnd_toStartOf="@+id/HistoryButton"
+        app:layout_constraintStart_toEndOf="@+id/SendButton" />
+
+    <ImageView
+        android:id="@+id/AngryImageView"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toStartOf="@+id/CryImageView"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toEndOf="@+id/SmileImageView"
+        app:layout_constraintTop_toBottomOf="@+id/LoginUser"
+        app:srcCompat="@drawable/angry" />
+
+    <ImageView
+        android:id="@+id/CryImageView"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LoginUser"
+        app:srcCompat="@drawable/cry" />
+
+    <ImageView
+        android:id="@+id/SmileImageView"
+        android:layout_width="73dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LoginUser"
+        app:srcCompat="@drawable/smile" />
+
+    <TextView
+        android:id="@+id/SmileCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="28dp"
+        android:text="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SmileImageView" />
+
+    <TextView
+        android:id="@+id/AngryCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="0"
+        app:layout_constraintEnd_toStartOf="@+id/CryCountTextView"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toEndOf="@+id/SmileCountTextView"
+        app:layout_constraintTop_toBottomOf="@+id/AngryImageView" />
+
+    <TextView
+        android:id="@+id/CryCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="108dp"
+        android:text="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/CryImageView" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
