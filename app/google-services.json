@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "774676863828",
+    "project_id": "numad-39",
+    "storage_bucket": "numad-39.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774676863828:android:e0fc9bb06975138f1046c1",
+        "android_client_info": {
+          "package_name": "edu.northeastern.numad23sp_group39project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "774676863828-ablcfpanq075i0b4h4o219btu7utvrud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-FMXBI3SOGpLPn4pEs21f5sZZurBojqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "774676863828-ablcfpanq075i0b4h4o219btu7utvrud.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
