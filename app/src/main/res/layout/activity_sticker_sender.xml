@@ -91,7 +91,7 @@
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_marginTop="48dp"
-        android:layout_marginEnd="80dp"
+        android:layout_marginEnd="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LoginUser"
         app:srcCompat="@drawable/cry" />
@@ -106,34 +106,35 @@
         app:layout_constraintTop_toBottomOf="@+id/LoginUser"
         app:srcCompat="@drawable/smile" />
 
-    <TextView
-        android:id="@+id/SmileCountTextView"
+    <CheckBox
+        android:id="@+id/AngryCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="28dp"
-        android:text="0"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="28dp"
+        android:text="Angry"
+        app:layout_constraintEnd_toStartOf="@+id/CryCheckBox"
+        app:layout_constraintStart_toEndOf="@+id/SmileCheckBox"
+        app:layout_constraintTop_toBottomOf="@+id/AngryImageView" />
+
+    <CheckBox
+        android:id="@+id/SmileCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="16dp"
+        android:text="Smile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SmileImageView" />
 
-    <TextView
-        android:id="@+id/AngryCountTextView"
+    <CheckBox
+        android:id="@+id/CryCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="0"
-        app:layout_constraintEnd_toStartOf="@+id/CryCountTextView"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toEndOf="@+id/SmileCountTextView"
-        app:layout_constraintTop_toBottomOf="@+id/AngryImageView" />
-
-    <TextView
-        android:id="@+id/CryCountTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="108dp"
-        android:text="0"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="36dp"
+        android:text="Cry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CryImageView" />
 
