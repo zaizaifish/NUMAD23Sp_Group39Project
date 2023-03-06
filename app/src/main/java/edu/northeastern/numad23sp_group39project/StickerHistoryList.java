@@ -13,6 +13,10 @@ public class StickerHistoryList {
         this.timeReceived = timeReceived;
     }
 
+    public  StickerHistoryList() {
+
+    }
+
     public String getUserSticker() {
         return userSticker;
     }
