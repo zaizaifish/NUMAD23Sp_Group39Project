@@ -20,6 +20,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -155,6 +156,8 @@ public class StickerSender extends AppCompatActivity {
                 String time = String.valueOf((new Date()).getTime());
                 Message message = new Message(username, receiver, sticker, time);
                 Task t = mDatabase.child("messages").child(time).setValue(message);
+                Log.d("_____task", t.toString());
+                Toast.makeText(getApplicationContext(), "Sticker sent",Toast.LENGTH_SHORT).show();
             }
         });
         Button CountButton = findViewById(R.id.CountButton);
