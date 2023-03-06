@@ -186,7 +186,7 @@ public class StickerSender extends AppCompatActivity {
                 Message message = new Message(username, receiver, sticker, time);
                 Task t = mDatabase.child("messages").child(time).setValue(message);
                 Log.d("_____task", t.toString());
-                Toast.makeText(getApplicationContext(), "Sticker sent",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Sticker sent", Toast.LENGTH_SHORT).show();
             }
         });
         Button CountButton = findViewById(R.id.CountButton);
@@ -195,7 +195,7 @@ public class StickerSender extends AppCompatActivity {
             public void onClick(View v) {
                 // Read Count data from database
                 // use another view to display data
-                Intent countIntent = new Intent(getApplicationContext(),StickerCount.class);
+                Intent countIntent = new Intent(getApplicationContext(), StickerCount.class);
                 startActivity(countIntent);
             }
         });
@@ -240,8 +240,9 @@ public class StickerSender extends AppCompatActivity {
                     }
                 }
         );
-
-
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(StickerSender.this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 101);
+        }
     }
 
     private void showMessage(DataSnapshot dataSnapshot) {
@@ -331,16 +332,7 @@ public class StickerSender extends AppCompatActivity {
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             ActivityCompat.requestPermissions(StickerSender.this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS},101);
-
-            return;
         }
         notificationManager.notify(0, builder.build());
     }
