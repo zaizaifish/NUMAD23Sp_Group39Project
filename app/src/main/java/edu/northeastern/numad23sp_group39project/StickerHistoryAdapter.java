@@ -3,6 +3,7 @@ package edu.northeastern.numad23sp_group39project;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,14 +20,14 @@ public class StickerHistoryAdapter extends RecyclerView.Adapter<StickerHistoryAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView userSticker;
         private TextView fromUser;
         private TextView timeReceived;
+        private ImageView receivedImage;
         public ViewHolder(final View view) {
             super(view);
-            userSticker = view.findViewById(R.id.stickerUser);
             fromUser = view.findViewById(R.id.fromWhichUser);
             timeReceived = view.findViewById(R.id.timeStickerSent);
+            receivedImage = view.findViewById(R.id.imageReceived);
         }
     }
 
@@ -42,7 +43,14 @@ public class StickerHistoryAdapter extends RecyclerView.Adapter<StickerHistoryAd
         String userSticker = hisRes.get(position).getUserSticker();
         String fromUser = hisRes.get(position).getFromUser();
         String timeReceived = hisRes.get(position).getTimeReceived();
-        holder.userSticker.setText(userSticker);
+
+        if (userSticker.equals("smile.png")) {
+            holder.receivedImage.setImageResource(R.drawable.smile);
+        } else if (userSticker.equals("angry.png")) {
+            holder.receivedImage.setImageResource(R.drawable.angry);
+        } else {
+            holder.receivedImage.setImageResource(R.drawable.cry);
+        }
         holder.fromUser.setText(fromUser);
         holder.timeReceived.setText(timeReceived);
     }
