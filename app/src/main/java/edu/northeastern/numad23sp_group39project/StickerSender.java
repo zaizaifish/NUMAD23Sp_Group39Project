@@ -60,6 +60,7 @@ public class StickerSender extends AppCompatActivity {
     private TextView timeText;
     private TextView fromText;
     private ImageView receivedImage;
+    private long createTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,8 @@ public class StickerSender extends AppCompatActivity {
         // add back button in action bar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        createTime = (new Date()).getTime();
 
         // add database
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -131,6 +134,30 @@ public class StickerSender extends AppCompatActivity {
                 SmileCheckBox.setChecked(false);
             }
         });
+
+
+        SmileCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CryCheckBox.setChecked(false);
+                AngryCheckBox.setChecked(false);
+            }
+        });
+        AngryCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CryCheckBox.setChecked(false);
+                SmileCheckBox.setChecked(false);
+            }
+        });
+        CryCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AngryCheckBox.setChecked(false);
+                SmileCheckBox.setChecked(false);
+            }
+        });
+
 
         // set up listener for buttons
         Button SendButton = findViewById(R.id.SendButton);
@@ -271,6 +298,9 @@ public class StickerSender extends AppCompatActivity {
             return;
         }
         String fromUser = message.from;
+        if (Long.parseLong(message.time) < createTime) {
+            return;
+        }
         String sendTime = (new Date(Long.parseLong(message.time))).toString();
         int resId = R.drawable.smile;
         if (message.sticker.equals("smile.png")) {
