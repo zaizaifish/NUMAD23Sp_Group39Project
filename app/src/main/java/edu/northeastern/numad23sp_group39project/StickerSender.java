@@ -41,6 +41,8 @@ import org.w3c.dom.Text;
 import java.security.Timestamp;
 import java.util.Date;
 
+import android.Manifest;
+
 public class StickerSender extends AppCompatActivity {
     private TextView mTvUsername;
     private String username;
@@ -184,6 +186,7 @@ public class StickerSender extends AppCompatActivity {
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 //                        showMessage(dataSnapshot);
                         showNotification(dataSnapshot);
+
                     }
 
                     @Override
@@ -277,7 +280,7 @@ public class StickerSender extends AppCompatActivity {
         // implement notification bar
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_MUTABLE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "my_channel_id")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -301,12 +304,18 @@ public class StickerSender extends AppCompatActivity {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-//            ActivityCompat.requestPermissions(this,
-//                    new String[] { Manifest.permission.VIBRATE },
-//                    MY_PERMISSIONS_REQUEST_SEND_NOTIFICATION);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
             return;
         }
+
         notificationManager.notify(notificationId, builder.build());
         notificationId++;
     }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//            sendNotification();
+//        }
+//    }
 }
