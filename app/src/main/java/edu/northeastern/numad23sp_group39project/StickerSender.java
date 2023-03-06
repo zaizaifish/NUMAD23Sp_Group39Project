@@ -173,8 +173,6 @@ public class StickerSender extends AppCompatActivity {
             public void onClick(View v) {
                 // Read History Data from database
                 // use another view to display data
-                Intent intent = new Intent(StickerSender.this, StickerHistory.class);
-                startActivity(intent);
             }
         });
 
