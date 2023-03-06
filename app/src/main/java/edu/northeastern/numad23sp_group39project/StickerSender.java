@@ -57,7 +57,7 @@ public class StickerSender extends AppCompatActivity {
     private TextView timeText;
     private TextView fromText;
     private ImageView receivedImage;
-
+    private int notificationId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -248,63 +248,65 @@ public class StickerSender extends AppCompatActivity {
     }
 
     private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.channel_name);
-            String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("my_channel_id", name, importance);
-            channel.setDescription(description);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
+        CharSequence name = getString(R.string.channel_name);
+        String description = getString(R.string.channel_description);
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel("my_channel_id", name, importance);
+        channel.setDescription(description);
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
     }
 
     private void showNotification(DataSnapshot dataSnapshot) {
         // read data from database
-//        Message message = dataSnapshot.getValue(Message.class);
-//        if (!message.to.equals(username)) {
-//            return;
-//        }
-//        String fromUser = message.from;
-//        String sendTime = (new Date(Long.parseLong(message.time))).toString();
-//        int resId = R.drawable.smile;
-//        if (message.sticker.equals("smile.png")) {
-//            resId = R.drawable.smile;
-//        } else if (message.sticker.equals("angry.png")) {
-//            resId = R.drawable.angry;
-//        } else {
-//            resId = R.drawable.cry;
-//        }
-//
-//        // implement notification bar
-//        Intent intent = new Intent(this, MainActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-//
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "my_channel_id")
-//                .setSmallIcon(R.drawable.ic_launcher_foreground)
-//                .setContentTitle("Incoming Sticker Reminder")
-//                .setContentText("You have received a sticker from " + fromUser + "\n" + "Time: " + sendTime)
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//                .setLargeIcon(BitmapFactory.decodeResource(getResources(), resId))
-//                .setStyle(new NotificationCompat.BigPictureStyle()
-//                        .bigPicture(BitmapFactory.decodeResource(getResources(), resId))
-//                        .bigLargeIcon(null))
+        Message message = dataSnapshot.getValue(Message.class);
+        if (!message.to.equals(username)) {
+            return;
+        }
+        String fromUser = message.from;
+        String sendTime = (new Date(Long.parseLong(message.time))).toString();
+        int resId = R.drawable.smile;
+        if (message.sticker.equals("smile.png")) {
+            resId = R.drawable.smile;
+        } else if (message.sticker.equals("angry.png")) {
+            resId = R.drawable.angry;
+        } else {
+            resId = R.drawable.cry;
+        }
+
+        // implement notification bar
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "my_channel_id")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Incoming Sticker Reminder")
+                .setContentText("You have received a sticker from " + fromUser + "\n" + "Time: " + sendTime)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), resId))
+                .setStyle(new NotificationCompat.BigPictureStyle()
+                        .bigPicture(BitmapFactory.decodeResource(getResources(), resId))
+                        .bigLargeIcon(null));
 //                .setContentIntent(pendingIntent)
 //                .setAutoCancel(true);
-//
-//
-//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-//        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//            return;
-//        }
-//        notificationManager.notify(0, builder.build());
+
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+//            ActivityCompat.requestPermissions(this,
+//                    new String[] { Manifest.permission.VIBRATE },
+//                    MY_PERMISSIONS_REQUEST_SEND_NOTIFICATION);
+            return;
+        }
+        notificationManager.notify(notificationId, builder.build());
+        notificationId++;
     }
 }
