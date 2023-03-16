@@ -1,5 +1,7 @@
 package edu.northeastern.numad23sp_group39project;
 
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -20,6 +22,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -57,7 +60,8 @@ public class StickerSender extends AppCompatActivity {
     private TextView timeText;
     private TextView fromText;
     private ImageView receivedImage;
-    private int notificationId;
+    private long createTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +69,8 @@ public class StickerSender extends AppCompatActivity {
         // add back button in action bar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        createTime = (new Date()).getTime();
 
         // add database
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -129,6 +135,30 @@ public class StickerSender extends AppCompatActivity {
             }
         });
 
+
+        SmileCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CryCheckBox.setChecked(false);
+                AngryCheckBox.setChecked(false);
+            }
+        });
+        AngryCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CryCheckBox.setChecked(false);
+                SmileCheckBox.setChecked(false);
+            }
+        });
+        CryCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AngryCheckBox.setChecked(false);
+                SmileCheckBox.setChecked(false);
+            }
+        });
+
+
         // set up listener for buttons
         Button SendButton = findViewById(R.id.SendButton);
         SendButton.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +185,8 @@ public class StickerSender extends AppCompatActivity {
                 String time = String.valueOf((new Date()).getTime());
                 Message message = new Message(username, receiver, sticker, time);
                 Task t = mDatabase.child("messages").child(time).setValue(message);
+                Log.d("_____task", t.toString());
+                Toast.makeText(getApplicationContext(), "Sticker sent", Toast.LENGTH_SHORT).show();
             }
         });
         Button CountButton = findViewById(R.id.CountButton);
@@ -163,7 +195,7 @@ public class StickerSender extends AppCompatActivity {
             public void onClick(View v) {
                 // Read Count data from database
                 // use another view to display data
-                Intent countIntent = new Intent(getApplicationContext(),StickerCount.class);
+                Intent countIntent = new Intent(getApplicationContext(), StickerCount.class);
                 startActivity(countIntent);
             }
         });
@@ -208,8 +240,9 @@ public class StickerSender extends AppCompatActivity {
                     }
                 }
         );
-
-
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(StickerSender.this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 101);
+        }
     }
 
     private void showMessage(DataSnapshot dataSnapshot) {
@@ -248,13 +281,15 @@ public class StickerSender extends AppCompatActivity {
     }
 
     private void createNotificationChannel() {
-        CharSequence name = getString(R.string.channel_name);
-        String description = getString(R.string.channel_description);
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel channel = new NotificationChannel("my_channel_id", name, importance);
-        channel.setDescription(description);
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(channel);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("my_channel_id", name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     private void showNotification(DataSnapshot dataSnapshot) {
@@ -264,6 +299,9 @@ public class StickerSender extends AppCompatActivity {
             return;
         }
         String fromUser = message.from;
+        if (Long.parseLong(message.time) < createTime) {
+            return;
+        }
         String sendTime = (new Date(Long.parseLong(message.time))).toString();
         int resId = R.drawable.smile;
         if (message.sticker.equals("smile.png")) {
@@ -277,7 +315,7 @@ public class StickerSender extends AppCompatActivity {
         // implement notification bar
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_IMMUTABLE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "my_channel_id")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -287,26 +325,15 @@ public class StickerSender extends AppCompatActivity {
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), resId))
                 .setStyle(new NotificationCompat.BigPictureStyle()
                         .bigPicture(BitmapFactory.decodeResource(getResources(), resId))
-                        .bigLargeIcon(null));
-//                .setContentIntent(pendingIntent)
-//                .setAutoCancel(true);
+                        .bigLargeIcon(null))
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
 
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-//            ActivityCompat.requestPermissions(this,
-//                    new String[] { Manifest.permission.VIBRATE },
-//                    MY_PERMISSIONS_REQUEST_SEND_NOTIFICATION);
-            return;
+            ActivityCompat.requestPermissions(StickerSender.this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS},101);
         }
-        notificationManager.notify(notificationId, builder.build());
-        notificationId++;
+        notificationManager.notify(0, builder.build());
     }
 }
