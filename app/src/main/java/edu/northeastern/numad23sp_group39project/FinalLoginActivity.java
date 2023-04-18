@@ -37,7 +37,7 @@ public class FinalLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_login);
-
+        // add button
         emailText = findViewById(R.id.email);
         passwordText = findViewById(R.id.password);
         btn1 = findViewById(R.id.loginbtn);
