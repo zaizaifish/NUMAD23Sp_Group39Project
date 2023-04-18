@@ -50,6 +50,7 @@ public class FinalLoginActivity extends AppCompatActivity {
             passwordText.setText(savedInstanceState.getString("passwordText"));
         }
 
+        // log in session
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,6 +88,7 @@ public class FinalLoginActivity extends AppCompatActivity {
             }
         });
 
+        // register session
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
