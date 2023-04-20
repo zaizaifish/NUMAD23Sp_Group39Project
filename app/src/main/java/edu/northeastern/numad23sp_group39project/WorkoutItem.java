@@ -5,14 +5,14 @@ public class WorkoutItem {
     private int caloriesPerHour;
     private int durationMinutes;
     private int totalCalories;
-    private String user;
+    private String type;
 
-    public WorkoutItem(String name, int caloriesPerHour, int durationMinutes, int totalCalories, String user) {
+    public WorkoutItem(String name, int caloriesPerHour, int durationMinutes, int totalCalories, String type) {
         this.name = name;
         this.caloriesPerHour = caloriesPerHour;
         this.durationMinutes = durationMinutes;
         this.totalCalories = totalCalories;
-        this.user = user;
+        this.type = type;
     }
 
     public String getName() {
@@ -47,12 +47,12 @@ public class WorkoutItem {
         this.totalCalories = totalCalories;
     }
 
-    public String getUser() {
-        return user;
+    public String getType() {
+        return type;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUser(String type) {
+        this.type = type;
     }
 }
 

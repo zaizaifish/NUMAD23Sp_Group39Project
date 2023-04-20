@@ -1,0 +1,79 @@
+[
+  {
+    "name": "Outdoor Run",
+    "calories_per_hour": 327,
+    "recommend_duration": 60,
+    "total_calories": 327,
+    "type": "Aerobic"
+  },
+  {
+    "name": "Hiking",
+    "calories_per_hour": 312,
+    "recommend_duration": 60,
+    "total_calories": 312,
+    "type": "Aerobic"
+  },
+  {
+    "name": "Treadmill",
+    "calories_per_hour": 181,
+    "recommend_duration": 60,
+    "total_calories": 181,
+    "type": "Aerobic"
+  },
+  {
+    "name": "Elliptical",
+    "calories_per_hour": 181,
+    "recommend_duration": 60,
+    "total_calories": 181,
+    "type": "Aerobic"
+  },
+  {
+    "name": "HIIT",
+    "calories_per_hour": 399,
+    "recommend_duration": 60,
+    "total_calories": 399,
+    "type": "Aerobic"
+  },
+  {
+    "name": "Traditional Strength Training",
+    "calories_per_hour": 400,
+    "recommend_duration": 60,
+    "total_calories": 400,
+    "type": "Anaerobic"
+  },
+  {
+    "name": "Traditional Strength Training",
+    "calories_per_hour": 400,
+    "recommend_duration": 60,
+    "total_calories": 400,
+    "type": "Anaerobic"
+  },
+  {
+    "name": "Badminton",
+    "calories_per_hour": 400,
+    "recommend_duration": 60,
+    "total_calories": 400,
+    "type": "Anaerobic"
+  },
+  {
+    "name": "Jump Rope",
+    "calories_per_hour": 400,
+    "recommend_duration": 60,
+    "total_calories": 400,
+    "type": "Anaerobic"
+  },
+  {
+    "name": "Rower",
+    "calories_per_hour": 400,
+    "recommend_duration": 60,
+    "total_calories": 400,
+    "type": "Anaerobic"
+  },
+  {
+    "name": "Yoga",
+    "calories_per_hour": 400,
+    "recommend_duration": 60,
+    "total_calories": 400,
+    "type": "Anaerobic"
+  }
+]

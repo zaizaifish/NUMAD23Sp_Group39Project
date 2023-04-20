@@ -31,9 +31,9 @@ public class WorkoutItemAdapter extends RecyclerView.Adapter<WorkoutItemAdapter.
         WorkoutItem cardItem = cardItems.get(position);
         holder.tvName.setText(cardItem.getName());
         holder.tvCaloriesPerHour.setText("Calories per hour: " + cardItem.getCaloriesPerHour());
-        holder.tvDurationMinutes.setText("Duration (minutes): " + cardItem.getDurationMinutes());
+        holder.tvDurationMinutes.setText("Recommend Duration: " + cardItem.getDurationMinutes() + " mins");
         holder.tvTotalCalories.setText("Total calories: " + cardItem.getTotalCalories());
-        holder.tvUser.setText("User: " + cardItem.getUser());
+        holder.tvUser.setText("Type: " + cardItem.getType());
     }
 
     @Override
