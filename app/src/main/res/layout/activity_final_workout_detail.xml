@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FinalWorkoutDetailActivity">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.95">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/workout_type_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Workout Type:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/workout_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Running"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/workout_type_label"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/workout_date_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Workout Date:"
+                app:layout_constraintStart_toEndOf="@id/workout_type"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/workout_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01-01-2023"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/workout_date_label"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/workout_length_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Workout Length:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/workout_type_label" />
+
+            <TextView
+                android:id="@+id/workout_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="45 min"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/workout_length_label"
+                app:layout_constraintTop_toBottomOf="@id/workout_type" />
+
+            <TextView
+                android:id="@+id/workout_distance_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Workout Distance:"
+                app:layout_constraintStart_toEndOf="@id/workout_length"
+                app:layout_constraintTop_toBottomOf="@id/workout_distance" />
+
+            <TextView
+                    android:id="@+id/workout_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5 km"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/workout_distance_label"
+            app:layout_constraintTop_toBottomOf="@id/workout_date" />
+
+            <TextView
+                android:id="@+id/heart_rate_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Heart Rate:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/workout_length_label" />
+
+            <TextView
+                android:id="@+id/heart_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="120 BPM"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/heart_rate_label"
+                app:layout_constraintTop_toBottomOf="@id/workout_length" />
+
+            <TextView
+                android:id="@+id/calories_burned_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calories Burned:"
+                app:layout_constraintStart_toEndOf="@id/heart_rate"
+                app:layout_constraintTop_toBottomOf="@id/workout_distance_label" />
+
+            <TextView
+                android:id="@+id/calories_burned"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="300 kcal"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/calories_burned_label"
+                app:layout_constraintTop_toBottomOf="@id/workout_distance" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
