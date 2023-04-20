@@ -1,6 +1,9 @@
 package edu.northeastern.numad23sp_group39project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +12,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +31,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class WorkoutPlanActivity extends AppCompatActivity {
     private String API_KEY = "8oIz1o63I1d35JvmZiFSMA==BEKRGnpyWmu9JaGP";
@@ -33,6 +43,12 @@ public class WorkoutPlanActivity extends AppCompatActivity {
 
     // TODO: change the following into list to parse into ListView
     private int calories;
+    private ValueEventListener mValueEventListener;
+    private DatabaseReference mDatabase;
+    private List<WorkoutItem> cardItems;
+    private RecyclerView recyclerView;
+    private WorkoutItemAdapter cardAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +58,12 @@ public class WorkoutPlanActivity extends AppCompatActivity {
         showResult = findViewById(R.id.showResult);
         testBtn = findViewById(R.id.button);
         userView = findViewById(R.id.userView);
+        cardItems = new ArrayList<>();
 
         // retrieve user status
         SharedPreferences mSharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         String userId = mSharedPreferences.getString("userId", null);
+        System.out.println(userId);
         String userEmail = mSharedPreferences.getString("userEmail", null);
         String userDisplayName = mSharedPreferences.getString("userDisplayName", null);
 
@@ -54,6 +72,10 @@ public class WorkoutPlanActivity extends AppCompatActivity {
         }
 
         // TODO: if user have previous workout plan, read from Firebase and load into ListView
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        loadWorkoutsDate();
 
         // test API call to query exercise info
         testBtn.setOnClickListener(new View.OnClickListener() {
@@ -81,11 +103,49 @@ public class WorkoutPlanActivity extends AppCompatActivity {
                     }
                 });
                 thread.start();
-
-
-
             }
         });
+    }
+
+    private void loadWorkoutsDate() {
+        mValueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<JSONObject> activities = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    JSONObject activity = new JSONObject((java.util.Map<String, Object>) snapshot.getValue());
+                    String user = activity.optString("user", "");
+
+                    if (user.equals("test")) {
+                        activities.add(activity);
+                    }
+                }
+                try {
+                    for (int i = 0; i < activities.size(); i++) {
+                        JSONObject jsonObject = activities.get(i);
+
+                        String name = jsonObject.getString("name");
+                        int caloriesPerHour = jsonObject.getInt("calories_per_hour");
+                        int durationMinutes = jsonObject.getInt("duration_minutes");
+                        int totalCalories = jsonObject.getInt("total_calories");
+                        String user = jsonObject.getString("user");
+                        WorkoutItem cardItem = new WorkoutItem(name, caloriesPerHour, durationMinutes, totalCalories, user);
+                        cardItems.add(cardItem);
+                        cardAdapter = new WorkoutItemAdapter(cardItems);
+                        recyclerView.setAdapter(cardAdapter);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w("MainActivity", "Failed to read value.", databaseError.toException());
+            }
+        };
+
+        mDatabase.addListenerForSingleValueEvent(mValueEventListener);
     }
 
     private int getCalories(String exercise) throws IOException, JSONException {
