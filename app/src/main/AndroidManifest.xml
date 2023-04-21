@@ -18,6 +18,9 @@
         android:theme="@style/Theme.NUMAD23Sp_Group39Project"
         tools:targetApi="31">
         <activity
+            android:name=".WorkoutPlanActivity"
+            android:exported="false" />
+        <activity
             android:name=".FinalLoginActivity"
             android:exported="false" />
         <activity
