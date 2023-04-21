@@ -8,13 +8,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 
 public class WorkoutTimerActivity extends AppCompatActivity {
 
-    private EditText editTextMinutes;
+    private LinearLayout timePickerLayout;
+    private NumberPicker hourPicker, minutePicker, secondPicker;
     private TextView timerText;
     private Button pauseContinueButton;
     private CountDownTimer countDownTimer;
+    private Button stopButton;
     private boolean isPaused = true;
     private long remainingTime;
 
@@ -23,23 +27,44 @@ public class WorkoutTimerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_timer);
 
-        editTextMinutes = findViewById(R.id.editTextMinutes);
+        timePickerLayout = findViewById(R.id.timePickerLayout);
+        hourPicker = findViewById(R.id.hourPicker);
+        minutePicker = findViewById(R.id.minutePicker);
+        secondPicker = findViewById(R.id.secondPicker);
+        stopButton = findViewById(R.id.stopButton);
+
+        hourPicker.setMinValue(0);
+        hourPicker.setMaxValue(23);
+        minutePicker.setMinValue(0);
+        minutePicker.setMaxValue(59);
+        secondPicker.setMinValue(0);
+        secondPicker.setMaxValue(59);
+
         timerText = findViewById(R.id.timerText);
         pauseContinueButton = findViewById(R.id.pauseContinueButton);
+
+
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopTimer();
+            }
+        });
 
         pauseContinueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isPaused) {
                     if (countDownTimer == null) {
-                        String input = editTextMinutes.getText().toString();
-                        if (input.isEmpty()) {
-                            Toast.makeText(WorkoutTimerActivity.this, "Please enter minutes.", Toast.LENGTH_SHORT).show();
+                        int hours = hourPicker.getValue();
+                        int minutes = minutePicker.getValue();
+                        int seconds = secondPicker.getValue();
+                        if (hours == 0 && minutes == 0 && seconds == 0) {
+                            Toast.makeText(WorkoutTimerActivity.this, "Please set a valid time.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        long minutes = Long.parseLong(input);
-                        remainingTime = minutes * 60 * 1000;
-                        editTextMinutes.setEnabled(false); // Disable the EditText
+                        remainingTime = (hours * 60 * 60 + minutes * 60 + seconds) * 1000;
+                        timePickerLayout.setVisibility(View.GONE); // Hide the time pickers
                     }
                     startTimer(remainingTime);
                 } else {
@@ -48,6 +73,7 @@ public class WorkoutTimerActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void startTimer(long millisInFuture) {
         countDownTimer = new CountDownTimer(millisInFuture, 1000) {
@@ -62,7 +88,7 @@ public class WorkoutTimerActivity extends AppCompatActivity {
                 timerText.setText("00:00:00");
                 Toast.makeText(WorkoutTimerActivity.this, "Time is up!", Toast.LENGTH_SHORT).show();
                 pauseContinueButton.setText("Start");
-                editTextMinutes.setEnabled(true); // Re-enable the EditText
+                timePickerLayout.setVisibility(View.VISIBLE); // Show the time pickers
                 isPaused = true;
                 countDownTimer = null;
             }
@@ -70,6 +96,7 @@ public class WorkoutTimerActivity extends AppCompatActivity {
 
         countDownTimer.start();
         pauseContinueButton.setText("Pause");
+        stopButton.setVisibility(View.VISIBLE); // Show the "Stop" button
         isPaused = false;
     }
 
@@ -87,5 +114,17 @@ public class WorkoutTimerActivity extends AppCompatActivity {
         int seconds = (int) (millis % (1000 * 60) / 1000);
         String time = String.format("%02d:%02d:%02d", hours, minutes, seconds);
         timerText.setText(time);
+    }
+
+    private void stopTimer() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            timerText.setText("00:00:00");
+            pauseContinueButton.setText("Start");
+            stopButton.setVisibility(View.GONE);
+            timePickerLayout.setVisibility(View.VISIBLE);
+            isPaused = true;
+            countDownTimer = null;
+        }
     }
 }
