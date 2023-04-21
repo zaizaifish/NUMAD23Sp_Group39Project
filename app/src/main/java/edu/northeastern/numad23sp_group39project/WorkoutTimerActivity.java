@@ -16,7 +16,7 @@ public class WorkoutTimerActivity extends AppCompatActivity {
     private LinearLayout timePickerLayout;
     private NumberPicker hourPicker, minutePicker, secondPicker;
     private TextView timerText;
-    private Button pauseContinueButton;
+    private Button pauseResumeButton;
     private CountDownTimer countDownTimer;
     private Button stopButton;
     private boolean isPaused = true;
@@ -41,7 +41,7 @@ public class WorkoutTimerActivity extends AppCompatActivity {
         secondPicker.setMaxValue(59);
 
         timerText = findViewById(R.id.timerText);
-        pauseContinueButton = findViewById(R.id.pauseContinueButton);
+        pauseResumeButton = findViewById(R.id.pauseResumeButton);
 
 
         stopButton.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +51,7 @@ public class WorkoutTimerActivity extends AppCompatActivity {
             }
         });
 
-        pauseContinueButton.setOnClickListener(new View.OnClickListener() {
+        pauseResumeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isPaused) {
@@ -87,7 +87,7 @@ public class WorkoutTimerActivity extends AppCompatActivity {
             public void onFinish() {
                 timerText.setText("00:00:00");
                 Toast.makeText(WorkoutTimerActivity.this, "Time is up!", Toast.LENGTH_SHORT).show();
-                pauseContinueButton.setText("Start");
+                pauseResumeButton.setText("Start");
                 timePickerLayout.setVisibility(View.VISIBLE); // Show the time pickers
                 isPaused = true;
                 countDownTimer = null;
@@ -95,7 +95,7 @@ public class WorkoutTimerActivity extends AppCompatActivity {
         };
 
         countDownTimer.start();
-        pauseContinueButton.setText("Pause");
+        pauseResumeButton.setText("Pause");
         stopButton.setVisibility(View.VISIBLE); // Show the "Stop" button
         isPaused = false;
     }
@@ -103,7 +103,7 @@ public class WorkoutTimerActivity extends AppCompatActivity {
     private void pauseTimer() {
         if (countDownTimer != null) {
             countDownTimer.cancel();
-            pauseContinueButton.setText("Continue");
+            pauseResumeButton.setText("Resume");
             isPaused = true;
         }
     }
@@ -120,9 +120,15 @@ public class WorkoutTimerActivity extends AppCompatActivity {
         if (countDownTimer != null) {
             countDownTimer.cancel();
             timerText.setText("00:00:00");
-            pauseContinueButton.setText("Start");
+            pauseResumeButton.setText("Start");
             stopButton.setVisibility(View.GONE);
             timePickerLayout.setVisibility(View.VISIBLE);
+
+            // Reset the NumberPicker values
+            hourPicker.setValue(0);
+            minutePicker.setValue(0);
+            secondPicker.setValue(0);
+
             isPaused = true;
             countDownTimer = null;
         }
