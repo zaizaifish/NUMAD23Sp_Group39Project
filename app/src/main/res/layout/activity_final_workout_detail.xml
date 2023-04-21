@@ -8,6 +8,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/workout_type_card"
+        android:layout_margin="10dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#FFFFFF"
@@ -45,6 +46,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/workout_date_card"
+        android:layout_margin="10dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#FFFFFF"
@@ -82,6 +84,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/workout_length_card"
+        android:layout_margin="10dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#FFFFFF"
@@ -119,6 +122,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/workout_distance_card"
+        android:layout_margin="10dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#FFFFFF"
@@ -156,6 +160,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/heart_rate_card"
+        android:layout_margin="10dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#FFFFFF"
@@ -193,6 +198,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/calories_burned_card"
+        android:layout_margin="10dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#FFFFFF"
