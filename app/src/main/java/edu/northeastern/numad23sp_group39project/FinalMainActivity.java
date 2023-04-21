@@ -18,6 +18,7 @@ public class FinalMainActivity extends AppCompatActivity {
     private Button btn2; // exercise list button
     private Button btn3; // report button
     private Button btn4; // log in button
+    private Button btn5; // test timer button
     private FirebaseUser mUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class FinalMainActivity extends AppCompatActivity {
         btn2 = findViewById(R.id.button2);
         btn3 = findViewById(R.id.button3);
         btn4 = findViewById(R.id.button4);
+        btn5 = findViewById(R.id.button5);
 
         // retrieve user status
         SharedPreferences mSharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
@@ -63,6 +65,13 @@ public class FinalMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), FinalLoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        btn5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), WorkoutTimerActivity.class);
                 startActivity(intent);
             }
         });
