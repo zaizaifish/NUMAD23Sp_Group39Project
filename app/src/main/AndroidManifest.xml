@@ -21,7 +21,7 @@
             android:name=".FinalWorkoutDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".FinalWorkoutActivity"
+            android:name=".WorkoutPlanActivity"
             android:exported="false" />
         <activity
             android:name=".FinalLoginActivity"
