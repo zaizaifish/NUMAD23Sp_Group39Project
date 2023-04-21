@@ -10,7 +10,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class FinalWorkoutDetailActivity extends AppCompatActivity implements OnMapReadyCallback{
+public class FinalWorkoutDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private TextView workoutType, workoutDate, workoutLength, workoutDistance, heartRate, caloriesBurned;
 
