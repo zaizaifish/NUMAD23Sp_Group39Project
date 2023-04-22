@@ -55,7 +55,8 @@ public class FinalMainActivity extends AppCompatActivity {
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), ChartsActivity.class);
+                startActivity(intent);
             }
         });
         btn4.setOnClickListener(new View.OnClickListener() {
