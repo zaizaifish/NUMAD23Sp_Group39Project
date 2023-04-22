@@ -95,6 +95,7 @@ public class WorkoutTimerActivity extends AppCompatActivity {
                 Toast.makeText(WorkoutTimerActivity.this, "Time is up!", Toast.LENGTH_SHORT).show();
                 pauseResumeButton.setText("Start");
                 timePickerLayout.setVisibility(View.VISIBLE); // Show the time pickers
+                stopButton.setVisibility(View.GONE);
                 isPaused = true;
                 countDownTimer = null;
             }
