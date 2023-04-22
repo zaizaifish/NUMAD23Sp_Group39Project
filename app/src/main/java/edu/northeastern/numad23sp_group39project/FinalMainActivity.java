@@ -29,6 +29,7 @@ public class FinalMainActivity extends AppCompatActivity {
         btn2 = findViewById(R.id.button2);
         btn3 = findViewById(R.id.button3);
         btn4 = findViewById(R.id.button4);
+
         // retrieve user status
         SharedPreferences mSharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         String userId = mSharedPreferences.getString("userId", null);
@@ -55,7 +56,7 @@ public class FinalMainActivity extends AppCompatActivity {
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), FinalWorkoutDetailActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ChartsActivity.class);
                 startActivity(intent);
             }
         });

@@ -32,6 +32,11 @@
             android:name=".WorkoutPlanActivity"
             android:exported="false" />
         <activity
+            android:name=".ChartsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_charts"
+            android:theme="@style/Theme.NUMAD23Sp_Group39Project.NoActionBar" />
+        <activity
             android:name=".FinalLoginActivity"
             android:exported="false" />
         <activity
