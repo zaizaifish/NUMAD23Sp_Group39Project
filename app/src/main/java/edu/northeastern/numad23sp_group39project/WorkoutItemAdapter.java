@@ -13,9 +13,11 @@ import java.util.List;
 public class WorkoutItemAdapter extends RecyclerView.Adapter<WorkoutItemAdapter.CardViewHolder> {
 
     private List<WorkoutItem> cardItems;
+    private OnItemClickListener onItemClickListener;
 
-    public WorkoutItemAdapter(List<WorkoutItem> cardItems) {
+    public WorkoutItemAdapter(List<WorkoutItem> cardItems, OnItemClickListener onItemClickListener) {
         this.cardItems = cardItems;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -41,7 +43,7 @@ public class WorkoutItemAdapter extends RecyclerView.Adapter<WorkoutItemAdapter.
         return cardItems.size();
     }
 
-    public class CardViewHolder extends RecyclerView.ViewHolder {
+    public class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView tvName, tvCaloriesPerHour, tvDurationMinutes, tvTotalCalories, tvUser;
 
@@ -52,6 +54,17 @@ public class WorkoutItemAdapter extends RecyclerView.Adapter<WorkoutItemAdapter.
             tvDurationMinutes = itemView.findViewById(R.id.tvDurationMinutes);
             tvTotalCalories = itemView.findViewById(R.id.tvTotalCalories);
             tvUser = itemView.findViewById(R.id.tvUser);
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onItemClickListener.onItemClick(getAdapterPosition());
+        }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 }

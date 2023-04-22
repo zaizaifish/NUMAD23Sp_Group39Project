@@ -26,6 +26,9 @@
             android:name=".FinalWorkoutDetailActivity"
             android:exported="false" />
         <activity
+            android:name=".WorkoutTimerActivity"
+            android:exported="false" />
+        <activity
             android:name=".WorkoutPlanActivity"
             android:exported="false" />
         <activity
