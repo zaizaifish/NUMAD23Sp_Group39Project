@@ -31,6 +31,8 @@ public class FinalWorkoutDetailActivity extends AppCompatActivity implements OnM
 
         // Set values for text views from workout data (e.g., from an intent or a database)
 
+        // get from intent
+
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
