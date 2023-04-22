@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/timePickerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <NumberPicker
+                android:id="@+id/hourPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hr"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <NumberPicker
+                android:id="@+id/minutePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="min"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <NumberPicker
+                android:id="@+id/secondPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sec"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/timerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timePickerLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="00:00:00"
+        android:textSize="40sp"
+        android:textColor="#222222" />
+
+    <Button
+        android:id="@+id/pauseResumeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timerText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Start"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/stopButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timerText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:text="Stop"
+        android:backgroundTint="#F44336"
+        android:textColor="#FFFFFF"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/workout_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"
+        android:gravity="center"
+        android:text="Workout Name"
+        android:textColor="#222222"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
+
