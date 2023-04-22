@@ -27,6 +27,12 @@ public class WorkoutTimerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_timer);
 
+        // Get the workout name passed from the previous activity
+        String workoutName = getIntent().getStringExtra("workout_name");
+
+        TextView workoutNameTextView = findViewById(R.id.workout_name_text_view);
+        workoutNameTextView.setText(workoutName);
+
         timePickerLayout = findViewById(R.id.timePickerLayout);
         hourPicker = findViewById(R.id.hourPicker);
         minutePicker = findViewById(R.id.minutePicker);

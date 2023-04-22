@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
@@ -43,7 +44,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class WorkoutPlanActivity extends AppCompatActivity {
+public class WorkoutPlanActivity extends AppCompatActivity implements WorkoutItemAdapter.OnItemClickListener {
     private String API_KEY = "8oIz1o63I1d35JvmZiFSMA==BEKRGnpyWmu9JaGP";
     private String API_URL_CALORIES = "https://api.api-ninjas.com/v1/caloriesburned?activity=";
     private EditText exerciseName;
@@ -133,6 +134,16 @@ public class WorkoutPlanActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onItemClick(int position) {
+        WorkoutItem clickedItem = cardItems.get(position);
+        String workoutName = clickedItem.getName();
+
+        Intent intent = new Intent(this, WorkoutTimerActivity.class);
+        intent.putExtra("workout_name", workoutName);
+        startActivity(intent);
+    }
+
     private void loadWorkoutsDate(String curExercise, int curCalories) {
         if (curExercise != null && curCalories > 0){
             Log.d("add","add success");
@@ -145,7 +156,7 @@ public class WorkoutPlanActivity extends AppCompatActivity {
             WorkoutItem cardItem = new WorkoutItem(name, caloriesPerHour, durationMinutes, totalCalories, type);
             cardItems.add(cardItem);
 
-            cardAdapter = new WorkoutItemAdapter(cardItems);
+            cardAdapter = new WorkoutItemAdapter(cardItems, this);
             recyclerView.setAdapter(cardAdapter);
         }else{
             InputStream inputStream = getResources().openRawResource(R.raw.workout_data);
@@ -182,7 +193,7 @@ public class WorkoutPlanActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            cardAdapter = new WorkoutItemAdapter(cardItems);
+            cardAdapter = new WorkoutItemAdapter(cardItems, this);
             recyclerView.setAdapter(cardAdapter);
         }
 
