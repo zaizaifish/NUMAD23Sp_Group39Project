@@ -42,13 +42,6 @@
     "type": "Anaerobic"
   },
   {
-    "name": "Traditional Strength Training",
-    "calories_per_hour": 400,
-    "recommend_duration": 60,
-    "total_calories": 400,
-    "type": "Anaerobic"
-  },
-  {
     "name": "Badminton",
     "calories_per_hour": 400,
     "recommend_duration": 60,
