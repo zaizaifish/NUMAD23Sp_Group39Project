@@ -10,6 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.content.res.Configuration;
+import androidx.annotation.NonNull;
+
 
 public class WorkoutTimerActivity extends AppCompatActivity {
 
@@ -139,5 +142,10 @@ public class WorkoutTimerActivity extends AppCompatActivity {
             isPaused = true;
             countDownTimer = null;
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 }

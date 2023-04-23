@@ -27,6 +27,7 @@
             android:exported="false" />
         <activity
             android:name=".WorkoutTimerActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name=".WorkoutPlanActivity"
