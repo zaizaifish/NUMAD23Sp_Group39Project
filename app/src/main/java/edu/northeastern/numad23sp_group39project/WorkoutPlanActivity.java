@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -47,17 +48,13 @@ import java.util.Scanner;
 public class WorkoutPlanActivity extends AppCompatActivity implements WorkoutItemAdapter.OnItemClickListener {
     private String API_KEY = "8oIz1o63I1d35JvmZiFSMA==BEKRGnpyWmu9JaGP";
     private String API_URL_CALORIES = "https://api.api-ninjas.com/v1/caloriesburned?activity=";
-    private EditText exerciseName;
-    private TextView showResult;
-    private Button testBtn;
-    private TextView userView;
     private FloatingActionButton fabAddExercise;
     // TODO: change the following into list to parse into ListView
     private int calories;
     private String exercise;
     private ValueEventListener mValueEventListener;
     private DatabaseReference mDatabase;
-    private List<WorkoutItem> cardItems;
+    private ArrayList<WorkoutItem> cardItems;
     private RecyclerView recyclerView;
     private WorkoutItemAdapter cardAdapter;
 
@@ -66,8 +63,12 @@ public class WorkoutPlanActivity extends AppCompatActivity implements WorkoutIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_plan);
 
-        cardItems = new ArrayList<>();
-
+//        cardItems = new ArrayList<>();
+        if (savedInstanceState != null) {
+            cardItems = savedInstanceState.getParcelableArrayList("cardItems");
+        } else {
+            cardItems = new ArrayList<>();
+        }
         // retrieve user status
 //        SharedPreferences mSharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 //        String userId = mSharedPreferences.getString("userId", null);
@@ -158,7 +159,9 @@ public class WorkoutPlanActivity extends AppCompatActivity implements WorkoutIte
 
             cardAdapter = new WorkoutItemAdapter(cardItems, this);
             recyclerView.setAdapter(cardAdapter);
-        }else{
+        }
+        else if (cardItems.size() == 0){ // initialize cardItems
+            cardItems = new ArrayList<>();
             InputStream inputStream = getResources().openRawResource(R.raw.workout_data);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
@@ -196,7 +199,10 @@ public class WorkoutPlanActivity extends AppCompatActivity implements WorkoutIte
             cardAdapter = new WorkoutItemAdapter(cardItems, this);
             recyclerView.setAdapter(cardAdapter);
         }
-
+        else{
+            cardAdapter = new WorkoutItemAdapter(cardItems, this);
+            recyclerView.setAdapter(cardAdapter);
+        }
     }
 
     private int getCalories(String exercise) throws IOException, JSONException {
@@ -231,5 +237,9 @@ public class WorkoutPlanActivity extends AppCompatActivity implements WorkoutIte
         }
         return new Random().nextInt(300); // handle empty response
     }
-
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("cardItems", new ArrayList<>(cardItems));
+    }
 }

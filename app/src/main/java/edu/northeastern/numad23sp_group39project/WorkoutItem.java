@@ -1,6 +1,11 @@
 package edu.northeastern.numad23sp_group39project;
 
-public class WorkoutItem {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class WorkoutItem implements Parcelable {
     private String name;
     private int caloriesPerHour;
     private int durationMinutes;
@@ -14,6 +19,26 @@ public class WorkoutItem {
         this.totalCalories = totalCalories;
         this.type = type;
     }
+
+    protected WorkoutItem(Parcel in) {
+        name = in.readString();
+        caloriesPerHour = in.readInt();
+        durationMinutes = in.readInt();
+        totalCalories = in.readInt();
+        type = in.readString();
+    }
+
+    public static final Creator<WorkoutItem> CREATOR = new Creator<WorkoutItem>() {
+        @Override
+        public WorkoutItem createFromParcel(Parcel in) {
+            return new WorkoutItem(in);
+        }
+
+        @Override
+        public WorkoutItem[] newArray(int size) {
+            return new WorkoutItem[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -53,6 +78,20 @@ public class WorkoutItem {
 
     public void setUser(String type) {
         this.type = type;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeInt(caloriesPerHour);
+        parcel.writeInt(durationMinutes);
+        parcel.writeInt(totalCalories);
+        parcel.writeString(type);
     }
 }
 

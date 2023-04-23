@@ -43,7 +43,8 @@ public class FinalMainActivity extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), FinalWorkoutDetailActivity.class);
+                startActivity(intent);
             }
         });
         btn2.setOnClickListener(new View.OnClickListener() {
